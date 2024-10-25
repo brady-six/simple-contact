@@ -21,7 +21,7 @@ public class ContactModelAssembler
     return EntityModel.of(
         contact,
         linkTo(methodOn(ContactController.class).getContact(contact.getId())).withSelfRel(),
-        linkTo(methodOn(ContactController.class).getContacts()).withRel("contacts"));
+        linkTo(methodOn(ContactController.class).getContacts(1, 10)).withRel("contacts"));
   }
 
   @Override
@@ -33,6 +33,6 @@ public class ContactModelAssembler
     contacts.forEach(contact -> models.add(toModel(contact)));
 
     return CollectionModel.of(
-        models, linkTo(methodOn(ContactController.class).getContacts()).withSelfRel());
+        models, linkTo(methodOn(ContactController.class).getContacts(1, 10)).withSelfRel());
   }
 }

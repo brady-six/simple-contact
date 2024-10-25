@@ -15,10 +15,6 @@ public class ContactService {
     this.contactRepository = contactRepository;
   }
 
-  public List<Contact> getContacts() {
-    return contactRepository.findAll();
-  }
-
   public List<Contact> getContacts(Pageable pageable) {
     Page<Contact> page = contactRepository.findAll(pageable);
     return page.getContent();
