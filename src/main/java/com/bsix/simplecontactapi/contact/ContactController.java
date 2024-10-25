@@ -27,6 +27,11 @@ public class ContactController {
   @GetMapping
   public ResponseEntity<CollectionModel<EntityModel<Contact>>> getContacts(
       @RequestParam int page, @RequestParam int size) {
+
+    if (page <= 0) throw new IllegalArgumentException("Page number must be greater than zero.");
+
+    if (size <= 0) throw new IllegalArgumentException("Size must be greater than zero.");
+
     return ResponseEntity.ok(
         modelAssembler.toCollectionModel(contactService.getContacts(PageRequest.of(page, size))));
   }
