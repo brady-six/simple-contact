@@ -28,8 +28,8 @@ public class ContactService {
         return contactRepository.findById(id).orElseThrow();
     }
 
-    public Contact patchContact(Contact contact) {
-        Contact current = getContact(contact.getId());
+    public Contact patchContact(String id, Contact contact) {
+        Contact current = getContact(id);
 
         String newFirstName = contact.getFirstName();
         String newLastName = contact.getLastName();
@@ -69,8 +69,8 @@ public class ContactService {
 
     }
 
-    public Contact putContact(Contact contact) {
-        Contact current = getContact(contact.getId());
+    public Contact putContact(String id, Contact contact) {
+        Contact current = getContact(id);
 
         current.setFirstName(contact.getFirstName());
 
