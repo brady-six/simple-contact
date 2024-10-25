@@ -1,0 +1,56 @@
+package com.bsix.simplecontactapi.contact;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(path = "/api/contacts")
+public class ContactController {
+
+  private final ContactService contactService;
+
+  private final ContactModelAssembler modelAssembler;
+
+  public ContactController(ContactService contactService, ContactModelAssembler modelAssembler) {
+    this.contactService = contactService;
+    this.modelAssembler = modelAssembler;
+  }
+
+  @GetMapping
+  public ResponseEntity<CollectionModel<EntityModel<Contact>>> getContacts() {
+    return ResponseEntity.ok(modelAssembler.toCollectionModel(contactService.getContacts()));
+  }
+
+  @GetMapping
+  public ResponseEntity<CollectionModel<EntityModel<Contact>>> getContacts(
+      @RequestParam int page, @RequestParam int size) {
+    return ResponseEntity.ok(
+        modelAssembler.toCollectionModel(contactService.getContacts(PageRequest.of(page, size))));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<EntityModel<Contact>> getContact(@PathVariable String id) {
+    return ResponseEntity.ok(modelAssembler.toModel(contactService.getContact(id)));
+  }
+
+  @PatchMapping("/{id}")
+  public ResponseEntity<EntityModel<Contact>> patchContact(
+      @PathVariable String id, @RequestBody Contact contact) {
+    return ResponseEntity.ok(modelAssembler.toModel(contactService.patchContact(id, contact)));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<EntityModel<Contact>> putContact(
+      @PathVariable String id, @RequestBody Contact contact) {
+    return ResponseEntity.ok(modelAssembler.toModel(contactService.putContact(id, contact)));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteContact(@PathVariable String id) {
+    contactService.deleteContact(id);
+    return ResponseEntity.noContent().build();
+  }
+}
