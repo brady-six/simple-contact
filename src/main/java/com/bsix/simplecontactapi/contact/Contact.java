@@ -30,6 +30,7 @@ public class Contact {
   @Data
   @Builder
   @AllArgsConstructor
+  @Embeddable
   public static class Address {
 
     private String street;
