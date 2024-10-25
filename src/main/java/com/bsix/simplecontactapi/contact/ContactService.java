@@ -29,7 +29,7 @@ public class ContactService {
   }
 
   public Contact postContact(Contact contact) {
-      return contactRepository.save(contact);
+    return contactRepository.save(contact);
   }
 
   public Contact patchContact(String id, Contact contact) {

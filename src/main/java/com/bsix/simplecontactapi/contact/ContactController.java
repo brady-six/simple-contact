@@ -27,7 +27,7 @@ public class ContactController {
     return ResponseEntity.ok(modelAssembler.toCollectionModel(contactService.getContacts()));
   }
 
-  @GetMapping(params = { "page", "size"})
+  @GetMapping(params = {"page", "size"})
   public ResponseEntity<CollectionModel<EntityModel<Contact>>> getContacts(
       @RequestParam int page, @RequestParam int size) {
 
@@ -47,8 +47,9 @@ public class ContactController {
   @PostMapping
   public ResponseEntity<EntityModel<Contact>> postContact(@RequestBody Contact contact) {
     Contact savedContact = contactService.postContact(contact);
-    return ResponseEntity.created(linkTo(methodOn(ContactController.class).getContact(savedContact.getId())).toUri())
-            .body(modelAssembler.toModel(savedContact));
+    return ResponseEntity.created(
+            linkTo(methodOn(ContactController.class).getContact(savedContact.getId())).toUri())
+        .body(modelAssembler.toModel(savedContact));
   }
 
   @PatchMapping("/{id}")
