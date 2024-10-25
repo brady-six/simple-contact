@@ -29,6 +29,7 @@ public class Contact {
 
   @Data
   @Builder
+  @NoArgsConstructor
   @AllArgsConstructor
   @Embeddable
   public static class Address {
