@@ -6,6 +6,9 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(path = "/api/contacts")
 public class ContactController {
@@ -39,6 +42,13 @@ public class ContactController {
   @GetMapping("/{id}")
   public ResponseEntity<EntityModel<Contact>> getContact(@PathVariable String id) {
     return ResponseEntity.ok(modelAssembler.toModel(contactService.getContact(id)));
+  }
+
+  @PostMapping
+  public ResponseEntity<EntityModel<Contact>> postContact(@RequestBody Contact contact) {
+    Contact savedContact = contactService.postContact(contact);
+    return ResponseEntity.created(linkTo(methodOn(ContactController.class).getContact(savedContact.getId())).toUri())
+            .body(modelAssembler.toModel(savedContact));
   }
 
   @PatchMapping("/{id}")

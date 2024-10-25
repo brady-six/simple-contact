@@ -28,6 +28,10 @@ public class ContactService {
     return contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(id));
   }
 
+  public Contact postContact(Contact contact) {
+      return contactRepository.save(contact);
+  }
+
   public Contact patchContact(String id, Contact contact) {
     Contact current = getContact(id);
 
