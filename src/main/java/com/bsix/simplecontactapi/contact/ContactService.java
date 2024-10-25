@@ -9,90 +9,89 @@ import java.util.List;
 @Service
 public class ContactService {
 
-    private final ContactRepository contactRepository;
+  private final ContactRepository contactRepository;
 
-    public ContactService(ContactRepository contactRepository) {
-        this.contactRepository = contactRepository;
-    }
+  public ContactService(ContactRepository contactRepository) {
+    this.contactRepository = contactRepository;
+  }
 
-    public List<Contact> getContacts() {
-        return contactRepository.findAll();
-    }
+  public List<Contact> getContacts() {
+    return contactRepository.findAll();
+  }
 
-    public List<Contact> getContacts(Pageable pageable) {
-        Page<Contact> page = contactRepository.findAll(pageable);
-        return page.getContent();
-    }
+  public List<Contact> getContacts(Pageable pageable) {
+    Page<Contact> page = contactRepository.findAll(pageable);
+    return page.getContent();
+  }
 
-    public Contact getContact(String id) {
+  public Contact getContact(String id) {
     return contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(id));
+  }
+
+  public Contact patchContact(String id, Contact contact) {
+    Contact current = getContact(id);
+
+    String newFirstName = contact.getFirstName();
+    String newLastName = contact.getLastName();
+    String newPhoneNumber = contact.getPhoneNumber();
+    Contact.Address newAddress = contact.getAddress();
+    String newProfilePicture = contact.getProfilePicture();
+
+    if (newFirstName != null) current.setFirstName(newFirstName);
+
+    if (newLastName != null) current.setLastName(newFirstName);
+
+    if (newPhoneNumber != null) current.setPhoneNumber(newPhoneNumber);
+
+    if (newAddress != null) {
+
+      String newStreet = newAddress.getStreet();
+      String newCity = newAddress.getCity();
+      String newState = newAddress.getState();
+      String newZipcode = newAddress.getZipcode();
+      String newCountry = newAddress.getCountry();
+
+      if (newStreet != null) current.getAddress().setStreet(newStreet);
+
+      if (newCity != null) current.getAddress().setCity(newCity);
+
+      if (newState != null) current.getAddress().setState(newState);
+
+      if (newZipcode != null) current.getAddress().setZipcode(newZipcode);
+
+      if (newCountry != null) current.getAddress().setCountry(newCountry);
     }
 
-    public Contact patchContact(String id, Contact contact) {
-        Contact current = getContact(id);
+    if (newProfilePicture != null) current.setProfilePicture(newProfilePicture);
 
-        String newFirstName = contact.getFirstName();
-        String newLastName = contact.getLastName();
-        String newPhoneNumber = contact.getPhoneNumber();
-        Contact.Address newAddress = contact.getAddress();
-        String newProfilePicture = contact.getProfilePicture();
+    return contactRepository.save(current);
+  }
 
-        if (newFirstName != null) current.setFirstName(newFirstName);
+  public Contact putContact(String id, Contact contact) {
+    Contact current = getContact(id);
 
-        if (newLastName != null) current.setLastName(newFirstName);
+    current.setFirstName(contact.getFirstName());
 
-        if (newPhoneNumber != null) current.setPhoneNumber(newPhoneNumber);
+    current.setLastName(contact.getLastName());
 
-        if (newAddress != null) {
+    current.setPhoneNumber(contact.getPhoneNumber());
 
-            String newStreet = newAddress.getStreet();
-            String newCity = newAddress.getCity();
-            String newState = newAddress.getState();
-            String newZipcode = newAddress.getZipcode();
-            String newCountry = newAddress.getCountry();
+    Contact.Address address =
+        new Contact.Address.AddressBuilder()
+            .street(contact.getAddress().getStreet())
+            .city(contact.getAddress().getCity())
+            .state(contact.getAddress().getState())
+            .zipcode(contact.getAddress().getZipcode())
+            .country(contact.getAddress().getCountry())
+            .build();
 
-            if (newStreet != null) current.getAddress().setStreet(newStreet);
+    current.setAddress(address);
 
-            if (newCity != null) current.getAddress().setCity(newCity);
+    return contactRepository.save(current);
+  }
 
-            if (newState != null) current.getAddress().setState(newState);
-
-            if (newZipcode != null) current.getAddress().setZipcode(newZipcode);
-
-            if (newCountry != null) current.getAddress().setCountry(newCountry);
-
-        }
-
-        if (newProfilePicture != null) current.setProfilePicture(newProfilePicture);
-
-        return contactRepository.save(current);
-
-    }
-
-    public Contact putContact(String id, Contact contact) {
-        Contact current = getContact(id);
-
-        current.setFirstName(contact.getFirstName());
-
-        current.setLastName(contact.getLastName());
-
-        current.setPhoneNumber(contact.getPhoneNumber());
-
-        Contact.Address address = new Contact.Address.AddressBuilder()
-                .street(contact.getAddress().getStreet())
-                .city(contact.getAddress().getCity())
-                .state(contact.getAddress().getState())
-                .zipcode(contact.getAddress().getZipcode())
-                .country(contact.getAddress().getCountry())
-                .build();
-
-        current.setAddress(address);
-
-        return contactRepository.save(current);
-    }
-
-    public void deleteContact(String id) {
-        getContact(id); // Ensure this contact exists
-        contactRepository.deleteById(id);
-    }
+  public void deleteContact(String id) {
+    getContact(id); // Ensure this contact exists
+    contactRepository.deleteById(id);
+  }
 }

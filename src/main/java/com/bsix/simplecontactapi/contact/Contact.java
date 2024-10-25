@@ -13,35 +13,33 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Contact {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
-    private Address address;
+  private Address address;
 
-    private String profilePicture;
+  private String profilePicture;
 
-    @Data
-    @Builder
-    @AllArgsConstructor
-    public static class Address {
+  @Data
+  @Builder
+  @AllArgsConstructor
+  public static class Address {
 
-        private String street;
+    private String street;
 
-        private String city;
+    private String city;
 
-        private String state;
+    private String state;
 
-        private String zipcode;
+    private String zipcode;
 
-        private String country;
-
-    }
-
+    private String country;
+  }
 }
