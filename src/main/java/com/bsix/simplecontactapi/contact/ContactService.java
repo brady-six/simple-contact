@@ -25,7 +25,7 @@ public class ContactService {
     }
 
     public Contact getContact(String id) {
-        return contactRepository.findById(id).orElseThrow();
+    return contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(id));
     }
 
     public Contact patchContact(String id, Contact contact) {
