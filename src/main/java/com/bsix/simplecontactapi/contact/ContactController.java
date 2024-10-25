@@ -47,12 +47,6 @@ public class ContactController {
         .body(modelAssembler.toModel(savedContact));
   }
 
-  @PatchMapping("/{id}")
-  public ResponseEntity<EntityModel<Contact>> patchContact(
-      @PathVariable String id, @RequestBody Contact contact) {
-    return ResponseEntity.ok(modelAssembler.toModel(contactService.patchContact(id, contact)));
-  }
-
   @PutMapping("/{id}")
   public ResponseEntity<EntityModel<Contact>> putContact(
       @PathVariable String id, @RequestBody Contact contact) {

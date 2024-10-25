@@ -28,45 +28,6 @@ public class ContactService {
     return contactRepository.save(contact);
   }
 
-  public Contact patchContact(String id, Contact contact) {
-    Contact current = getContact(id);
-
-    String newFirstName = contact.getFirstName();
-    String newLastName = contact.getLastName();
-    String newPhoneNumber = contact.getPhoneNumber();
-    Contact.Address newAddress = contact.getAddress();
-    String newProfilePicture = contact.getProfilePicture();
-
-    if (newFirstName != null) current.setFirstName(newFirstName);
-
-    if (newLastName != null) current.setLastName(newFirstName);
-
-    if (newPhoneNumber != null) current.setPhoneNumber(newPhoneNumber);
-
-    if (newAddress != null) {
-
-      String newStreet = newAddress.getStreet();
-      String newCity = newAddress.getCity();
-      String newState = newAddress.getState();
-      String newZipcode = newAddress.getZipcode();
-      String newCountry = newAddress.getCountry();
-
-      if (newStreet != null) current.getAddress().setStreet(newStreet);
-
-      if (newCity != null) current.getAddress().setCity(newCity);
-
-      if (newState != null) current.getAddress().setState(newState);
-
-      if (newZipcode != null) current.getAddress().setZipcode(newZipcode);
-
-      if (newCountry != null) current.getAddress().setCountry(newCountry);
-    }
-
-    if (newProfilePicture != null) current.setProfilePicture(newProfilePicture);
-
-    return contactRepository.save(current);
-  }
-
   public Contact putContact(String id, Contact contact) {
     Contact current = getContact(id);
 

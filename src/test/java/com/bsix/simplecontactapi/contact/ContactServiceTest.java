@@ -80,19 +80,6 @@ public class ContactServiceTest {
   }
 
   @Test
-  public void testPatchContact() {
-    when(contactRepository.findById("1")).thenReturn(Optional.of(contact));
-    when(contactRepository.save(contact)).thenReturn(contact);
-    Contact updatedContact = new Contact(null, "Jane", null, null, null, null);
-
-    Contact patchedContact = contactService.patchContact("1", updatedContact);
-
-    assertEquals("Jane", patchedContact.getFirstName());
-    assertEquals("Doe", patchedContact.getLastName());
-    verify(contactRepository).save(contact);
-  }
-
-  @Test
   public void testPutContact() {
     when(contactRepository.findById("1")).thenReturn(Optional.of(contact));
     when(contactRepository.save(contact)).thenReturn(contact);

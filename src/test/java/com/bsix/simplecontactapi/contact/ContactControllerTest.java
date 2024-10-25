@@ -100,42 +100,6 @@ public class ContactControllerTest {
   }
 
   @Test
-  void testPatchKnownContact() throws Exception {
-
-    Contact updatedContact =
-        new Contact("1", "Jane", "Doe", "1234567890", contact.getAddress(), "john.png");
-
-    when(contactService.getContact("1")).thenReturn(contact);
-
-    when(contactService.patchContact("1", updatedContact)).thenReturn(updatedContact);
-
-    mockMvc
-        .perform(
-            patch("/api/contacts/1")
-                .content(objectMapper.writeValueAsString(updatedContact))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(matchContactEntity(updatedContact));
-
-    verify(contactService, times(1)).patchContact("1", updatedContact);
-  }
-
-  @Test
-  void testPatchUnknownContact() throws Exception {
-    when(contactService.patchContact("1", contact)).thenThrow(new ContactNotFoundException("1"));
-
-    mockMvc
-        .perform(
-            patch("/api/contacts/1")
-                .content(objectMapper.writeValueAsString(contact))
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().is(404))
-        .andExpect(matchContactNotFoundProblem("1"));
-
-    verify(contactService, times(1)).patchContact(any(), any());
-  }
-
-  @Test
   void testPutKnownContact() throws Exception {
     when(contactService.putContact(any(String.class), any(Contact.class))).thenReturn(contact);
 
