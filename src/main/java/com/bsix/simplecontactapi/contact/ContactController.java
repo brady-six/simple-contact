@@ -27,7 +27,7 @@ public class ContactController {
     return ResponseEntity.ok(modelAssembler.toCollectionModel(contactService.getContacts()));
   }
 
-  @GetMapping
+  @GetMapping(params = { "page", "size"})
   public ResponseEntity<CollectionModel<EntityModel<Contact>>> getContacts(
       @RequestParam int page, @RequestParam int size) {
 
