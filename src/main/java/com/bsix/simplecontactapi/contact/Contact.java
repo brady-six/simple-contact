@@ -30,13 +30,15 @@ public class Contact {
     @Data
     @Builder
     @AllArgsConstructor
-    private static class Address {
+    public static class Address {
 
         private String street;
 
         private String city;
 
         private String state;
+
+        private String zipcode;
 
         private String country;
 
