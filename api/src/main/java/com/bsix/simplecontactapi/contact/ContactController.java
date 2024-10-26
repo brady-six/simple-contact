@@ -1,13 +1,13 @@
 package com.bsix.simplecontactapi.contact;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/api/contacts")
@@ -30,8 +30,25 @@ public class ContactController {
 
     if (size <= 0) throw new IllegalArgumentException("Size must be greater than zero.");
 
-    return ResponseEntity.ok(
-        modelAssembler.toCollectionModel(contactService.getContacts(PageRequest.of(page, size))));
+    final var contactPage = contactService.getContacts(PageRequest.of(page, size));
+
+    final var model = modelAssembler.toCollectionModel(contactPage.getContent());
+
+    if (!contactPage.isFirst())
+      model.add(
+          linkTo(methodOn(ContactController.class).getContacts(page - 1, size))
+              .withRel("previous"));
+
+    if (!contactPage.isLast())
+      model.add(
+          linkTo(methodOn(ContactController.class).getContacts(page + 1, size)).withRel("next"));
+
+    model.add(linkTo(methodOn(ContactController.class).getContacts(0, size)).withRel("first"));
+    model.add(
+        linkTo(methodOn(ContactController.class).getContacts(contactPage.getTotalPages() - 1, size))
+            .withRel("last"));
+
+    return ResponseEntity.ok(model);
   }
 
   @GetMapping("/{id}")
