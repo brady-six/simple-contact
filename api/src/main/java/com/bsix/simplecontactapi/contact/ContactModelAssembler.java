@@ -1,16 +1,15 @@
 package com.bsix.simplecontactapi.contact;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import io.micrometer.common.lang.NonNull;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class ContactModelAssembler
@@ -21,7 +20,7 @@ public class ContactModelAssembler
     return EntityModel.of(
         contact,
         linkTo(methodOn(ContactController.class).getContact(contact.getId())).withSelfRel(),
-        linkTo(methodOn(ContactController.class).getContacts(1, 10)).withRel("contacts"));
+        linkTo(methodOn(ContactController.class).getContacts(0, 10)).withRel("contacts"));
   }
 
   @Override
@@ -33,6 +32,6 @@ public class ContactModelAssembler
     contacts.forEach(contact -> models.add(toModel(contact)));
 
     return CollectionModel.of(
-        models, linkTo(methodOn(ContactController.class).getContacts(1, 10)).withSelfRel());
+        models, linkTo(methodOn(ContactController.class).getContacts(0, 10)).withSelfRel());
   }
 }
