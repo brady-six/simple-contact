@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,10 +41,10 @@ public class ContactServiceTest {
     when(pageMock.getContent()).thenReturn(Collections.singletonList(contact));
     when(contactRepository.findAll(pageable)).thenReturn(pageMock);
 
-    List<Contact> contacts = contactService.getContacts(pageable);
+    Page<Contact> contactPage = contactService.getContacts(pageable);
 
-    assertEquals(1, contacts.size());
-    assertEquals("John", contacts.getFirst().getFirstName());
+    assertEquals(1, contactPage.getContent().size());
+    assertEquals("John", contactPage.getContent().getFirst().getFirstName());
     verify(contactRepository).findAll(pageable);
   }
 

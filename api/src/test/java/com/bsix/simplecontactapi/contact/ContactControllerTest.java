@@ -5,13 +5,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,14 +28,13 @@ public class ContactControllerTest {
   private final ObjectMapper objectMapper;
 
   @MockBean private ContactService contactService;
+  private Contact contact;
 
   @Autowired
   public ContactControllerTest(MockMvc mockMvc, ObjectMapper objectMapper) {
     this.mockMvc = mockMvc;
     this.objectMapper = objectMapper;
   }
-
-  private Contact contact;
 
   private static ResultMatcher matchContactCollection() {
     return (result) -> {
@@ -89,7 +90,10 @@ public class ContactControllerTest {
 
   @Test
   void testGetContacts() throws Exception {
-    when(contactService.getContacts(any(Pageable.class))).thenReturn(List.of(contact));
+
+    Page<Contact> contactPage = new PageImpl<>(Collections.singletonList(contact));
+
+    when(contactService.getContacts(any(Pageable.class))).thenReturn(contactPage);
 
     mockMvc
         .perform(get("/api/contacts"))
