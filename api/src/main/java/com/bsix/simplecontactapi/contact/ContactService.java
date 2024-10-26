@@ -4,8 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ContactService {
 
@@ -15,9 +13,8 @@ public class ContactService {
     this.contactRepository = contactRepository;
   }
 
-  public List<Contact> getContacts(Pageable pageable) {
-    Page<Contact> page = contactRepository.findAll(pageable);
-    return page.getContent();
+  public Page<Contact> getContacts(Pageable pageable) {
+    return contactRepository.findAll(pageable);
   }
 
   public Contact getContact(String id) {
