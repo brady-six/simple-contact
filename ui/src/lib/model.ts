@@ -29,5 +29,17 @@ export interface ContactListEntity {
     self: {
       href: string
     }
+    previous?: {
+      href: string
+    }
+    next?: {
+      href: string
+    }
+    first: {
+      href: string
+    }
+    last: {
+      href: string
+    }
   }
 }
