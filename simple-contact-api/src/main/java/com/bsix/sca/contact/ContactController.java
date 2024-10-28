@@ -58,4 +58,15 @@ public class ContactController {
     return ResponseEntity.created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())
         .body(model);
   }
+
+  @PutMapping("/{id}")
+  EntityModel<Contact> putContact(@PathVariable String id, @RequestBody Contact contact) {
+    Contact current = contactRepository.findById(id).orElseThrow();
+    current.setFirstName(contact.getFirstName());
+    current.setLastName(contact.getLastName());
+    current.setPhoneNumber(contact.getPhoneNumber());
+    current.setProfilePicture(contact.getProfilePicture());
+    current.setAddress(contact.getAddress());
+    return contactModelAssembler.toModel(contactRepository.save(current));
+  }
 }
