@@ -73,7 +73,8 @@ public class ContactController {
   }
 
   @DeleteMapping("/{id}")
-  void deleteContact(@PathVariable String id) {
+  ResponseEntity<Void> deleteContact(@PathVariable String id) {
     contactRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
   }
 }
