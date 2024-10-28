@@ -69,4 +69,9 @@ public class ContactController {
     current.setAddress(contact.getAddress());
     return contactModelAssembler.toModel(contactRepository.save(current));
   }
+
+  @DeleteMapping("/{id}")
+  void deleteContact(@PathVariable String id) {
+    contactRepository.deleteById(id);
+  }
 }
