@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,5 +50,12 @@ public class ContactController {
   EntityModel<Contact> getContact(@PathVariable String id) {
     var contact = contactRepository.findById(id).orElseThrow();
     return contactModelAssembler.toModel(contact);
+  }
+
+  @PostMapping
+  ResponseEntity<EntityModel<Contact>> postContact(@RequestBody Contact contact) {
+    var model = contactModelAssembler.toModel(contactRepository.save(contact));
+    return ResponseEntity.created(model.getRequiredLink(IanaLinkRelations.SELF).toUri())
+        .body(model);
   }
 }
