@@ -48,7 +48,8 @@ public class ContactController {
 
   @GetMapping(path = "/{id}")
   EntityModel<Contact> getContact(@PathVariable String id) {
-    var contact = contactRepository.findById(id).orElseThrow();
+    var contact =
+        contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(id));
     return contactModelAssembler.toModel(contact);
   }
 
@@ -61,7 +62,8 @@ public class ContactController {
 
   @PutMapping("/{id}")
   EntityModel<Contact> putContact(@PathVariable String id, @RequestBody Contact contact) {
-    Contact current = contactRepository.findById(id).orElseThrow();
+    Contact current =
+        contactRepository.findById(id).orElseThrow(() -> new ContactNotFoundException(id));
     current.setFirstName(contact.getFirstName());
     current.setLastName(contact.getLastName());
     current.setPhoneNumber(contact.getPhoneNumber());
