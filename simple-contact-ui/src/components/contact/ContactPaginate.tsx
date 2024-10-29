@@ -14,7 +14,7 @@ export default function ContactPaginate() {
     setPageData(next)
   }
   return pageData.page.totalPages > 0 && (
-    <div>
+    <div className="flex flex-col items-center my-5">
 
       <p>
         {pageData?.page.number + 1}
@@ -24,13 +24,15 @@ export default function ContactPaginate() {
         {pageData?.page.totalPages}
       </p>
 
-      <button type="button" onClick={toPreviousPage}>
-        <img src="./src/assets/arrow_back.svg" alt="" />
-      </button>
+      <div>
+        <button type="button" onClick={toPreviousPage}>
+          <img src="./src/assets/arrow_back.svg" alt="" />
+        </button>
 
-      <button type="button" onClick={toNextPage}>
-        <img src="./src/assets/arrow_forward.svg" alt="" />
-      </button>
+        <button type="button" onClick={toNextPage}>
+          <img src="./src/assets/arrow_forward.svg" alt="" />
+        </button>
+      </div>
 
     </div>
   )
