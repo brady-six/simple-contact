@@ -40,6 +40,8 @@ export interface ContactEntity {
   }
 }
 
+export type ContactCreate = Omit<ContactEntity, 'id' | '_links'>
+
 export interface ContactPage {
   _embedded?: {
     contactList: ContactEntity[]
