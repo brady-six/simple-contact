@@ -2,8 +2,10 @@ services:
   data:
     image: postgres:latest
     container_name: simple-contact-data
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     volumes:
       - pg_data:/var/lib/postgresql/data
     ports:
@@ -20,8 +22,11 @@ services:
         - data
       ports:
         - "8080:8080"
-      env_file:
-        - .env
+      environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://data:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       networks:
         - simple-contact-network
 
@@ -34,8 +39,6 @@ services:
       - api
     ports:
       - "80:80"
-    env_file:
-      - .env
     networks:
       - simple-contact-network
 
