@@ -2,6 +2,7 @@ export interface ContactListPageMeta {
   size: number
   totalElements: number
   totalPages: number
+  number: number
 }
 
 export interface ContactListLinkMeta {
