@@ -4,7 +4,7 @@ import ContactCreateForm from './ContactCreateForm'
 export default function ContactCreate() {
   const [isFormVisible, setFormVisible] = useState(false)
   return (
-    <div className="relative">
+    <div className="flex justify-center my-5">
       <button
         onClick={() => setFormVisible(true)}
         type="button"
