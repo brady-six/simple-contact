@@ -1,7 +1,11 @@
-FROM openjdk:21-jdk-slim
+FROM maven:latest
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY . .
+
+RUN mvn clean package
+
+COPY ./target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
