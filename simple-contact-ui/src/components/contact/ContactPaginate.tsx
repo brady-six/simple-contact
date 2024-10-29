@@ -13,8 +13,9 @@ export default function ContactPaginate() {
     const next = await fetchContactPage(pageData._links.next?.href || pageData._links.self.href)
     setPageData(next)
   }
-  return (
+  return pageData.page.totalPages > 0 && (
     <div>
+
       <p>
         {pageData?.page.number + 1}
         {' '}
