@@ -10,8 +10,9 @@ export default function ContactCard({ contact }: ContactCardProps) {
   const { pageData, setPageData } = useContact()
 
   const handleDelete = async () => {
+    const lastItem = pageData._embedded?.contactList.length === 1
     await deleteContact(contact)
-    const json = await fetchContactPage(pageData._links.self.href)
+    const json = await fetchContactPage(lastItem ? (pageData._links.prev?.href || '/api/contacts') : pageData._links.self.href)
     setPageData(json)
   }
 
