@@ -29,7 +29,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
         </button>
       </div>
 
-      <div className="border-b flex flex-col items-center">
+      <div className="border-b flex flex-col items-center h-36">
         <img src={contact.profilePicture} alt="" />
         <p className="font-semibold text-2xl">
           {contact.firstName}
