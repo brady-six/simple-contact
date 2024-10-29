@@ -1,5 +1,7 @@
 import type { ContactEntity } from './model'
+import deleteSvg from '../../assets/delete.svg'
 import { deleteContact, fetchContactPage } from '../../data'
+
 import { useContact } from './context'
 
 interface ContactCardProps {
@@ -25,7 +27,7 @@ export default function ContactCard({ contact }: ContactCardProps) {
           type="button"
           className="border rounded-md"
         >
-          <img src="./src/assets/delete.svg" alt="" />
+          <img src={deleteSvg} alt="" />
         </button>
       </div>
 

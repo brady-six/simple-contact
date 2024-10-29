@@ -1,4 +1,7 @@
+import arrowBack from '../../assets/arrow_back.svg'
+import arrowForward from '../../assets/arrow_forward.svg'
 import { fetchContactPage } from '../../data'
+
 import { useContact } from './context'
 
 export default function ContactPaginate() {
@@ -26,11 +29,11 @@ export default function ContactPaginate() {
 
       <div>
         <button type="button" onClick={toPreviousPage}>
-          <img src="./src/assets/arrow_back.svg" alt="" />
+          <img src={arrowBack} alt="" />
         </button>
 
         <button type="button" onClick={toNextPage}>
-          <img src="./src/assets/arrow_forward.svg" alt="" />
+          <img src={arrowForward} alt="" />
         </button>
       </div>
 
