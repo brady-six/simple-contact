@@ -1,0 +1,47 @@
+services:
+  data:
+    image: postgres:latest
+    container_name: simple-contact-data
+    env_file:
+      - .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - simple-contact-network
+
+  api:
+      build:
+        context: ./simple-contact-api
+        dockerfile: Dockerfile
+      container_name: simple-contact-api
+      depends_on:
+        - data
+      ports:
+        - "8080:8080"
+      env_file:
+        - .env
+      networks:
+        - simple-contact-network
+
+  ui:
+    build:
+      context: ./simple-contact-ui
+      dockerfile: Dockerfile
+    container_name: simple-contact-ui
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    networks:
+      - simple-contact-network
+
+volumes:
+  pg_data:
+
+networks:
+  simple-contact-network:
+    driver: bridge
