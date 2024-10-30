@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
-COPY ./target/*.jar app.jar
+RUN mv target/*.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
